@@ -1,0 +1,164 @@
+// Sabrina 桌宠的配置：关键词是「霍尼（honey）」和「甜心」，对应 Olivia 的「发疯」和「萌」
+// 改完在模板文件夹里运行 ./build.sh sabrina 重新打包，程序不用动
+// 写法：// 后面是注释；文字要加双引号；每项之间用逗号隔开（最后一项后面多个逗号也没关系）
+{
+  // ① 歌手和 app
+  singer: "Sabrina",
+  app: {
+    name: "Sabrina桌宠",
+    id: "sabrinapet",               // 发布以后别再改
+    executable: "SabrinaPet",
+    version: "1.0",
+    build: 1,
+    zip: "sabrina-pet-mac",
+    icon: "sweet6",                 // 眨眼 + 肩膀上的口红印那张
+    iconColor: "#FFC75F",           // 蜂蜜色底
+  },
+
+  // ② 表情包：霍尼、甜心、伪人、匠娅久久四个系列
+  //    霍尼里前两张是会动的（短视频抠的，一直来回循环）
+  //    say：换到这张时说的话（匠娅合照里两人的对话，\n 是换行）
+  stickers: [
+    // poked：这个系列的「惩罚动作」：连戳她 5 下，或者 2 秒多里连点这个系列的按钮 5 下，就演这个
+    // faces：被拎起来、被摸、被戳烦这些表情只从这个系列里借图，不会跳到别的系列
+    // lines：这个系列自己的台词（只写想换的，比如惩罚前那句 angry）
+    { series: "霍尼匠妹", poked: "Juno",
+      faces: { lifted: "honey2", happy: "honeylick", annoyed: "honey3", dizzy: "honeyshake", sleepy: "honey1" },
+      items: [
+      { asset: "honeylick", bust: true, height: 0.75, loop: "pingpong" },   // 颁奖礼上舔嘴唇（会动）
+      { asset: "honeyshake", bust: true, height: 0.8, loop: "pingpong" },   // 舞台上跪着扭（会动）
+      { asset: "honey2", bust: true, height: 1.0 },                          // 弯腰拿话筒
+      { asset: "honey3", bust: false, height: 0.85 },                        // 舞台上坐着
+      { asset: "honey1", bust: true, height: 0.85 },                         // 坐在地上
+    ]},
+    { series: "甜心匠妹", poked: "manvoice",
+      faces: { lifted: "sweet5", happy: "sweet6", annoyed: "sweet2", dizzy: "sweet3", sleepy: "sweet4" },
+      lines: { angry: ["给你听听什么叫男人音！"] },    // 惩罚前那句
+      items: [
+      { asset: "sweet0", bust: false, height: 1.0 },    // 绝对主图：红白条纹长裙 + 左边竖排「来支持了」（默认形象）
+      { asset: "sweet1", bust: true, height: 1.0 },     // 黄格子上衣
+      { asset: "sweet2", bust: true, height: 0.9 },     // 戴帽子
+      { asset: "sweet3", bust: true, height: 0.95 },    // 口红印连体衣转圈
+      { asset: "sweet4", bust: true, height: 0.95 },    // 亮片裙捂嘴笑
+      { asset: "sweet5", bust: true, height: 0.95 },    // 粉色亮片
+      { asset: "sweet6", bust: true, height: 0.75 },    // 眨眼 + 口红印
+      { asset: "sweet7", bust: true, height: 0.85 },    // 拿着饮料
+    ]},
+    { series: "伪人匠妹", poked: "megan",
+      faces: { lifted: "fake2", happy: "fake1", annoyed: "fake2", dizzy: "fake1", sleepy: "fake1" },
+      lines: { angry: ["给你看看什么叫伪人！"] },
+      items: [
+      { asset: "fake1", bust: true, height: 0.85 },     // 白毛衣直勾勾
+      { asset: "fake2", bust: true, height: 0.85 },     // 黑蕾丝直勾勾
+    ]},
+    // 匠娅久久：匠妹和娅娅的合照，点一下换一张、两人对话；连点 5 下的惩罚是 Joshua 冲出来挤到两人中间
+    { series: "匠娅久久", poked: "joshuasqueeze",
+      faces: { lifted: "duo1", happy: "duo3", annoyed: "duo2", dizzy: "duo4", sleepy: "duo2" },
+      lines: {
+        idle: ["娅娅：今天也要发疯吗\n匠妹：今天也要霍尼💋", "匠娅久久，久久久久", "娅娅：你的刘海借我摸摸\n匠妹：不行，这是我的命", "我们俩才是一对"],
+        poked: ["娅娅：别戳我们！", "匠妹：戳谁呢 honey", "娅娅：再戳就叫人了"],
+        angry: ["等等…谁来了？！"],
+        petted: ["娅娅：先摸我！\n匠妹：先摸我！", "两个一起摸嘛"],
+      },
+      items: [
+      { asset: "duo1", bust: true, height: 0.85, say: ["娅娅：匠妹今天好香\n匠妹：那当然，我是甜心💋"] },     // 并排合影
+      { asset: "duo2", bust: true, height: 0.7, say: ["娅娅：抱紧一点嘛\n匠妹：再抱就喘不过气啦"] },          // 黑白抱抱
+      { asset: "duo3", bust: true, height: 0.7, say: ["娅娅：mua～\n匠妹：又被偷亲了！"] },                   // 娅娅亲脸颊
+      { asset: "duo4", bust: true, height: 1.0, say: ["娅娅：我弹你唱？\n匠妹：合体开唱！"] },                // 同台
+    ]},
+  ],
+  defaultSticker: "sweet0",         // 第一次打开是「绝对主图」
+
+  // ③ 名场面：喷泉、男人音、伪人变脸 1.4 倍速，Juno 1.5 倍速（变速不变调）；Juno 菜单里只写编号，不写城市
+  //    caption：整段显示在她脚下的一句字幕（Juno 每段一句，霍尼 + 甜心风格，想改哪句直接改）
+  scenes: [
+    { id: "fountain", title: "科切拉喷泉", height: 1.35, speed: 1.4 },          // 水花太多抠不干净，放原画面、四周淡出
+    { id: "manvoice", title: "超绝男人音", height: 1.3, speed: 1.4 },           // 带中英字幕
+    { id: "megan", title: "伪人变脸", height: 0.8, speed: 1.4 },                // 镜头切到对手演员时，停在她的假笑上
+    { id: "juno01", title: "Juno 一", height: 1.3, speed: 1.5, caption: "甩头 Juno，甜心看呆了吧💋" },
+    { id: "juno02", title: "Juno 二", height: 1.3, speed: 1.5, caption: "单膝 Juno，霍尼指数拉满" },
+    { id: "juno03", title: "Juno 三", height: 1.3, speed: 1.5, caption: "爬过来的 Juno，接住了吗" },
+    { id: "juno04", title: "Juno 四", height: 1.3, speed: 1.5, caption: "躺平 Juno，今日份的甜" },
+    { id: "juno05", title: "Juno 五", height: 1.3, speed: 1.5, caption: "撩发 Juno，honey 请注意" },
+    { id: "juno06", title: "Juno 六", height: 1.3, speed: 1.5, caption: "小仙女 Juno，魔法生效中✨" },
+    { id: "juno07", title: "Juno 七", height: 1.3, speed: 1.5, caption: "抬腿 Juno，热辣上线" },
+    { id: "juno08", title: "Juno 八", height: 1.3, speed: 1.5, caption: "跪姿 Juno，甜到冒泡" },
+    { id: "juno09", title: "Juno 九", height: 1.3, speed: 1.5, caption: "红裙 Juno，心跳漏一拍" },
+    { id: "juno10", title: "Juno 十", height: 1.3, speed: 1.5, caption: "弯腰 Juno，霍尼不打烊" },
+    { id: "juno11", title: "Juno 十一", height: 1.3, speed: 1.5, caption: "趴下 Juno，乖乖看好" },
+    { id: "juno12", title: "Juno 十二", height: 1.3, speed: 1.5, caption: "金闪闪 Juno，甜心发光中" },
+    { id: "juno13", title: "Juno 十三", height: 1.3, speed: 1.5, caption: "格子裙 Juno，又甜又霍尼" },
+    { id: "juno14", title: "Juno 十四", height: 1.3, speed: 1.5, caption: "原始人 Juno，石器时代也霍尼" },
+    { id: "juno15", title: "Juno 十五", height: 1.3, speed: 1.5, caption: "收官 Juno，甜心谢幕💋" },
+    // 反转：先是男人牵着她的头发，翻过去变成她牵着男人的头发（两句字幕：翻之前一句、翻之后一句，at 是秒数）
+    { id: "reverse", title: "反转", height: 1.2, speed: 1.4,
+      caption: [{ text: "她被牵着头发？", at: 0 }, { text: "反转！是她牵着他💋", at: 2.45 }] },
+    // Joshua 冲出来挤到匠妹和娅娅中间，说「我也爱你 我爱你」（匠娅久久的惩罚动作，带原视频字幕）
+    { id: "joshuasqueeze", title: "Joshua 来了", height: 0.85, speed: 1.4, subsZoom: 1.5 },
+  ],
+
+  // ④ 头顶按钮：配色用蜂蜜色、甜心粉、樱桃红、浓缩咖啡棕
+  buttons: [
+    { label: "霍尼匠妹", icon: "mouth.fill", color: "#E8365D", stickers: "霍尼匠妹" },
+    { label: "甜心匠妹", icon: "heart.fill", color: "#FF8FB8", stickers: "甜心匠妹" },
+    { label: "伪人匠妹", icon: "eyes", color: "#A79BC8", stickers: "伪人匠妹" },
+    { label: "匠娅久久", icon: "person.2.fill", color: "#B05CC8", stickers: "匠娅久久" },
+    { label: "喷泉", icon: "drop.fill", color: "#4FC3F7", scene: "fountain" },
+    { label: "Juno", icon: "figure.dance", color: "#FFB300", darkIcon: true,
+      menu: ["juno01", "juno02", "juno03", "juno04", "juno05", "juno06", "juno07", "juno08",
+             "juno09", "juno10", "juno11", "juno12", "juno13", "juno14", "juno15"] },
+    { label: "男人音", icon: "mustache.fill", color: "#7A4A2E", scene: "manvoice" },
+    { label: "伪人变脸", icon: "theatermasks.fill", color: "#8E7CC3", scene: "megan" },
+    { label: "反转", icon: "arrow.triangle.2.circlepath", color: "#5C6BC0", scene: "reverse" },
+    // 专辑：8 张专辑封面绕着她转圈，再一张张朝鼠标飞过去「攻击」
+    { label: "专辑", icon: "opticaldisc.fill", color: "#FFC93C", darkIcon: true,
+      albums: ["album2015", "album2016", "album2018", "album2019", "album2022", "album2024", "album2025", "albumnew"] },
+    { label: "散步", icon: "figure.walk", color: "#F5A524", walk: true },
+    { label: "竖屏", icon: "rectangle.portrait", color: "#F06292", portrait: true },
+  ],
+
+  // ⑤ 右下角固定的唱歌按钮（和 Olivia 的「唱 Good 4 U」一样）：点了直接演男人音
+  sing: { label: "唱男人音", icon: "music.mic", scene: "manvoice", colors: ["#FFC93C", "#FF6FA3"] },
+
+  // ⑥ 连戳她 5 下（每个系列可以在上面单独写，没写的系列用这个）：随机来一个 Juno
+  poked: "Juno",
+
+  // ⑦ 互动时借哪张表情包当表情
+  faces: {
+    lifted: "fake2",     // 被拎起来：直勾勾地愣住
+    happy: "sweet6",     // 被摸头、你回来了：眨眼笑
+    annoyed: "sweet2",   // 被戳烦了：戴帽子斜眼
+    dizzy: "sweet3",     // 摔晕了、要发疯了：转圈
+    sleepy: "sweet4",    // 睡着了：闭着眼
+  },
+
+  // ⑧ 台词：霍尼 + 甜心，俏皮一点（不用歌词，不加「关注我」）
+  lines: {
+    idle: ["甜心，今天想我了吗", "霍尼模式已开启💋", "来点 honey 吗🍯", "你的甜心在线营业中", "要不要看我摆个 Juno",
+           "今天也要 Short n' Sweet", "我才不是伪人呢", "咖啡要浓，我要更甜", "刘海今天也很完美"],
+    lifted: ["放我下来啦甜心", "honey 轻一点", "我的刘海！", "抱这么紧想干嘛"],
+    poked: ["干嘛呀甜心", "再戳就亲你一口💋", "手好欠哦 honey", "戳够了没"],
+    angry: ["给你看看什么叫霍尼！", "Juno 警告！"],
+    petted: ["好舒服呀甜心", "再摸一下嘛", "嘿嘿 honey", "刘海别弄乱啦"],
+    noticed: ["嗨甜心～", "被我发现了💋", "看我干嘛，心动了？", "honey 你来啦", "嗯？"],
+    dizzy: ["我的刘海乱了！", "头好晕 honey", "摔得一点都不甜", "高跟靴要断了"],
+    windowMoved: ["哇！地震了？", "我的舞台被挪走了！", "别挪我的窗呀甜心"],
+    jump: ["嘿咻～", "上去营业啦", "站高高才够霍尼"],
+    wake: ["甜心你回来啦！", "嗯…我没睡", "早安 honey", "等你好久了💋"],
+    showtime: ["甜心看我表演！", "霍尼时间到💋"],
+    albums: ["前六张也是专辑！", "不认我的专辑？吃我一张💿", "专辑攻击！"],      // 专辑开始转圈
+    albumsDone: ["这下都认了吧💋", "张张都是我的宝贝"],                           // 专辑都飞出去以后
+  },
+
+  // ⑨ 配色：蜂蜜 + 甜心
+  theme: {
+    bar: "#4A1530C7",                               // 按钮条：深樱桃红，半透明
+    bubble: "#FFF2F7",                              // 对话框：淡粉
+    bubbleText: "#8A1F45",                          // 对话框文字：樱桃红
+    hearts: ["💋", "♥", "🍯", "♥"],                 // 摸头冒出来的：口红印、爱心、蜂蜜罐
+    heartColors: ["#FF4F8B", "#FF8FB8", "#E8365D"],
+    burst: ["#FFC93C", "#FF8FB8", "#FFFFFF", "#E8365D", "#FFB38A"],   // 变身星星：蜂蜜黄、甜心粉、白、樱桃红、蜜桃
+    notes: ["#FFC93C", "#FF8FB8", "#E8365D", "#FFFFFF"],
+    notice: "💗",                                   // 鼠标靠近：头上冒一颗心
+  },
+}

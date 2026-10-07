@@ -1,0 +1,127 @@
+// 新歌手的配置模板：./new_singer.sh <英文名> 会把这个文件复制到 singers/<英文名>/pet.json5
+// 把下面每一处「改」的地方换成这个歌手的；完整的例子见 singers/olivia/pet.json5
+// 改完运行 ./build.sh <英文名> 打包，程序不用动
+// 写法：// 后面是注释；文字要加双引号；每项之间用逗号隔开（最后一项后面多个逗号也没关系）
+{
+  // ① 歌手和 app
+  singer: "Singer",                 // 改：歌手名，右键菜单最后一行「退出 XX」
+  app: {
+    name: "Singer桌宠",              // 改：app 名字，访达、启动台里看到的
+    id: "singerpet",                // 改：内部编号，英文小写 + pet，发布以后别再改（改了大家电脑上的设置会丢）
+    executable: "SingerPet",        // 改：程序文件名，英文，用户看不到
+    version: "1.0",                 // 版本号：发新版时改
+    build: 1,                       // 发新版时 +1
+    zip: "singer-pet-mac",          // 改：GitHub 下载包的文件名（不带 .zip）
+    icon: "meme1",                  // 改：app 图标用哪张表情包（半身照放在粉色圆角方块里效果最好）
+    iconColor: "#FFD1E0",           // 图标底色（不写是 Olivia 那种浅粉色），可以换成这个歌手的代表色
+  },
+
+  // ② 表情包：分几个系列，头顶每个系列一个按钮，点一下换成这个系列的下一张（系列名由 Gabriel 定）
+  //    asset：assets 里的文件夹名
+  //    bust：半身照写 true（底边没有白边，贴着地面「冒出来」）；处理贴纸时工具会打印「半身 / 全身」
+  //    height：显示多高，1 是标准高度；自拍大头这种脸大的给小一点（Olivia 的萌系自拍是 0.62~0.86）
+  //    会动的表情包：短视频用 scene 工具抠成逐帧动画、再用 outline 描白边，放进来就会一直循环
+  //                  加 loop: "pingpong" 是放到头再倒着放回来（接缝不跳），不写就是从头循环（Sabrina 的舔嘴唇、扭屁股就是这样）
+  //    默认形象：第一个系列的第一张，或者在下面写 defaultSticker
+  //    每个系列还可以写：
+  //      poked: "名场面id" 或 "菜单按钮名"   这个系列的「惩罚动作」：连戳她 5 下、或者 2 秒多里连点这个系列的按钮 5 下就演（Sabrina：甜心 → 男人音、伪人 → 伪人变脸）
+  //      faces: { annoyed: "…", … }         互动时只从这个系列里借图当表情（不写的项用下面全局的 faces）
+  //      lines: { angry: ["…"] }            这个系列自己的台词（只写想换的，比如惩罚前那句）
+  //    每张表情包还可以写 say: ["…"]：用按钮换到这张时说的话（两个人对话用 \n 换行）
+  stickers: [
+    { series: "系列一", items: [
+      { asset: "meme1", bust: false, height: 1.0 },
+      { asset: "meme2", bust: true, height: 0.9 },
+    ]},
+    { series: "系列二", items: [
+      { asset: "cute1", bust: true, height: 0.7 },
+      { asset: "cute2", bust: true, height: 0.7 },
+    ]},
+  ],
+  // defaultSticker: "meme1",       // 第一次打开时的默认形象（不写就是第一个系列的第一张）
+
+  // ③ 名场面：每段对应 assets 里的一个文件夹（id 就是文件夹名，英文小写）
+  //    title：菜单里、自检时显示的名字
+  //    height：显示多高（相对标准高度），按脸占画面的比例定：远景多 1.3 左右、半身 1.0、脸部特写 0.75
+  //    speed：倍速（变速不变调，内容不剪）；只改这里就行，打包时会自动把声音重做成这个倍速
+  //    效果（不写就是没有）：
+  //      shake: true       跟着音乐的响度震屏
+  //      swing: true       荡秋千：在她站的地方荡，左边渐隐（只配合 swing 工具做的素材用）
+  //      audioOnly: true   只放声音，她用 sticker 那张表情包站着跟唱（随音量蹦、摇、冒音符）
+  //      smash: true       画面定格的那一刻全屏砸裂（也可以写帧号 smash: 86）；smashAt: [0.58, 0.62] 是砸中的位置
+  //    抠不干净的（比如水花、碎玻璃）可以整段放原画面、四周淡出：抠图时加 --raw-from 0（Sabrina 的喷泉）
+  //    caption: "…"：整段显示在她脚下的一句字幕（原视频没有字幕时自己写一句，不要用歌词）
+  //             也可以分几句：[{ text: "…", at: 0 }, { text: "…", at: 2.4 }]（at 是第几秒开始）
+  //    subsZoom: 1.5：这一段的字幕再放大几倍（原视频字幕太小时）
+  //    顺序就是自检的顺序；「自己演名场面」从全部里随机挑
+  scenes: [
+    { id: "scene1", title: "名场面一", height: 1.0 },
+    { id: "scene2", title: "名场面二", height: 1.3, speed: 1.25, shake: true },
+    { id: "live", title: "现场版", audioOnly: true, sticker: "meme1" },
+  ],
+
+  // ④ 头顶按钮，从左到右（名字由 Gabriel 定）；一般 6~8 个，太多按钮条会很宽
+  //    icon：苹果自带的图标名（SF Symbols），常用：face.smiling sparkles heart.fill flame.fill music.mic star.fill
+  //          figure.dance figure.play crown.fill bolt.fill camera.fill mic.fill，散步 figure.walk，竖屏 rectangle.portrait
+  //    color：pink red orange yellow green mint teal cyan blue indigo purple brown gray，或者 "#FF66AA" 这样的色号
+  //           黄色底会自动配深色图标，别的浅色想要深色图标就加 darkIcon: true
+  //    点了做什么，写下面其中一项：
+  //      stickers: "系列名"      换成这个表情包系列的下一张
+  //      scene: "名场面id"       演这一段（演的时候再按一下就停）
+  //      menu: ["id", "id"]      弹出菜单选一段演，最后还有「随机来一个」
+  //      albums: ["卡片", …]     专辑攻击：这些卡片绕着她转圈，再朝鼠标飞过去（卡片用 cards 工具裁）
+  //      walk: true              散步开关（所有歌手通用，建议保留）
+  //      portrait: true          竖屏开关（所有歌手通用：只在屏幕最右边 9:16 的竖条里活动，方便录竖屏视频，建议保留）
+  buttons: [
+    { label: "系列一", icon: "face.smiling", color: "pink", stickers: "系列一" },
+    { label: "系列二", icon: "sparkles", color: "indigo", stickers: "系列二" },
+    { label: "名场面", icon: "flame.fill", color: "orange", menu: ["scene1", "scene2"] },
+    { label: "散步", icon: "figure.walk", color: "blue", walk: true },
+    { label: "竖屏", icon: "rectangle.portrait", color: "teal", portrait: true },
+  ],
+
+  // ⑤ 右下角的唱歌按钮（紫粉渐变胶囊）：点了演哪一段；不要这个按钮就把这一项整行删掉
+  //    想换颜色可以加 colors: ["#B866FF", "#FF59A6"]（上面的颜色、下面的颜色）；字多了按钮会自动加宽
+  sing: { label: "唱 XX", icon: "music.mic", scene: "live" },
+
+  // ⑥ 连戳她 5 下：被惹毛了，从这个菜单按钮里随机演一段（也可以直接写名场面列表 ["scene1", "scene2"]）
+  //    不写就用第一个菜单按钮
+  poked: "名场面",
+
+  // ⑦ 互动时借哪张表情包当表情（写 asset 名，挑表情最像的）
+  faces: {
+    lifted: "meme2",     // 被拎起来（吃惊、张嘴的）
+    happy: "cute1",      // 被摸头、你回来了（笑的）
+    annoyed: "cute2",    // 被戳烦了（撇嘴、翻白眼的）
+    dizzy: "meme2",      // 摔晕了、要发疯了（吐舌头、瞪眼的）
+    sleepy: "cute1",     // 睡着了（眯眼、闭眼的）
+  },
+
+  // ⑧ 她说的台词：每种情况写几句，随机挑一句说；某一种不写就用通用的（就是下面这些）
+  //    闲着说的（idle）一定要换成这个歌手的梗；不要用歌词（版权）；不要加「关注我」之类的引导
+  lines: {
+    idle: ["好无聊，来摸摸我", "在忙？我等你", "我是表情包本包", "要不要听我唱歌"],   // 改：闲着自己说
+    lifted: ["放我下来！", "啊啊啊", "干嘛干嘛", "我恐高！"],              // 被拎起来
+    poked: ["干嘛！", "别戳了", "又戳我？", "手好欠哦"],                   // 连戳三四下
+    angry: ["你惹到我了！"],                                              // 戳满五下，要发疯了
+    petted: ["好舒服～", "再摸一下", "嘿嘿", "头发要乱了啦"],               // 被摸头
+    noticed: ["嗯？", "看我干嘛", "嗨～", "你要摸我吗", "被我发现了"],       // 鼠标靠近（偶尔说）
+    dizzy: ["哎哟", "头好晕", "摔死我了", "屁股好痛"],                     // 从高处摔下来
+    windowMoved: ["哇！", "地震了？", "别挪我的窗！"],                     // 站着的窗口被挪走了
+    jump: ["嘿咻", "上去看看", "我要站高高"],                             // 跳上窗口
+    wake: ["你回来啦！", "嗯…我没睡", "早呀", "等你好久了"],               // 睡醒
+    showtime: ["看我表演！"],                                            // 自己演名场面之前
+  },
+
+  // ⑨ 配色和小特效（不写就是 Olivia 那套：黑色按钮条、白色对话框、粉色爱心、彩色星星）
+  //    颜色写 "#FF66AA"，半透明写 "#FF66AACC"（最后两位是透明度）；符号可以写 emoji
+  // theme: {
+  //   bar: "#4A1530C7",                     // 按钮条底色
+  //   bubble: "#FFF2F7", bubbleText: "#8A1F45",   // 对话框底色、文字颜色
+  //   hearts: ["💋", "♥", "🍯"],            // 摸头时冒出来的
+  //   heartColors: ["#FF4F8B", "#FF8FB8"],  // ♥ 这种文字符号的颜色（emoji 自带颜色）
+  //   burst: ["#FFC93C", "#FF8FB8", "#FFFFFF"],   // 「噗」变身时炸开的星星
+  //   notes: ["#FFC93C", "#FF8FB8"],        // 跟着唱时冒的音符
+  //   notice: "💗",                          // 鼠标靠近时头上冒的符号（默认是黄色的 !）
+  // },
+}
